@@ -1,0 +1,56 @@
+.tarjeta.detalle-tarea {
+  max-width: 600px;
+  margin: 20px auto;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: sans-serif;
+}
+
+.detalle-header {
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.detalle-header h3 {
+  margin: 0;
+  color: #007bff;
+  font-size: 1.25rem;
+}
+
+.detalle-body p {
+  margin: 10px 0;
+  color: #333;
+}
+
+.detalle-footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-volver {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-volver:hover {
+  background-color: #5a6268;
+}
+
+.error {
+  color: #c0392b;
+}
+
+.detalle-footer {
+  display: flex;
+  gap: 0.5rem;
+}

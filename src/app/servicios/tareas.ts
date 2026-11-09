@@ -6,7 +6,7 @@ import { Tarea } from '../modelos/tarea';
 @Injectable({ providedIn: 'root' })
 export class TareasService {
   private readonly http = inject(HttpClient);
-  private readonly url = 'https://gestor-tareas-angular.onrender.com/tareas';
+  private readonly url = 'http://localhost:3000/tareas';
 
   private readonly _tareas = signal<Tarea[]>([]);
   private readonly _cargando = signal(false);
@@ -33,6 +33,10 @@ export class TareasService {
         this._cargando.set(false);
       },
     });
+  }
+
+  obtener(id: number): Observable<Tarea> {
+    return this.http.get<Tarea>(`${this.url}/${id}`);
   }
 
   agregar(titulo: string): Observable<Tarea> {

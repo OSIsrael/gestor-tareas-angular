@@ -1,10 +1,28 @@
-<div class="card mt-4">
-  <div class="card-header bg-primary text-white">
-    <h3>Detalle de la Tarea #{{ tareaId }}</h3>
-  </div>
-  <div class="card-body">
-    <p><strong>ID de la Tarea:</strong> {{ tareaId }}</p>
-    <p><strong>Estado:</strong> En gestión</p>
-    <button class="btn btn-secondary" (click)="regresar()">Volver a la Lista</button>
-  </div>
+<div class="tarjeta detalle-tarea">
+  @if (cargando()) {
+    <div class="detalle-body">
+      <p>Cargando tarea...</p>
+    </div>
+  } @else if (error()) {
+    <div class="detalle-body">
+      <p>{{ error() }}</p>
+    </div>
+    <div class="detalle-footer">
+      <button class="btn-volver" (click)="regresar()">Volver a la Lista</button>
+    </div>
+  } @else if (tarea(); as t) {
+    <div class="detalle-header">
+      <h3>Detalle de la Tarea #{{ t.id }}</h3>
+    </div>
+
+    <div class="detalle-body">
+      <p><strong>ID de la Tarea:</strong> {{ t.id }}</p>
+      <p><strong>Título:</strong> {{ t.titulo }}</p>
+      <p><strong>Estado:</strong> <span>{{ t.estado ? 'Completada' : 'Pendiente' }}</span></p>
+    </div>
+
+    <div class="detalle-footer">
+      <button class="btn-volver" (click)="regresar()">Volver a la Lista</button>
+    </div>
+  }
 </div>

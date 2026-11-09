@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Tarea } from '../../modelos/tarea';
+import { TareasService } from '../../servicios/tareas';
 
 @Component({
   selector: 'app-detalle-tarea',
@@ -7,16 +10,32 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./detalle-tarea.css']
 })
 export class DetalleTareaComponent implements OnInit {
-  tareaId: number | null = null;
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly tareasService = inject(TareasService);
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
+  protected readonly tarea = signal<Tarea | null>(null);
+  protected readonly cargando = signal(true);
+  protected readonly error = signal<string | null>(null);
 
   ngOnInit(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    this.tareaId = idParam ? +idParam : null;
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if (!id) {
+      this.error.set('El ID de la tarea no es válido');
+      this.cargando.set(false);
+      return;
+    }
+
+    this.tareasService.obtener(id).subscribe({
+      next: tarea => {
+        this.tarea.set(tarea);
+        this.cargando.set(false);
+      },
+      error: (e: HttpErrorResponse) => {
+        this.error.set(e.status === 404 ? 'La tarea no existe' : 'No se pudo cargar la tarea');
+        this.cargando.set(false);
+      },
+    });
   }
 
   regresar(): void {
